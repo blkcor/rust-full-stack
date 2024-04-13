@@ -1,12 +1,18 @@
-use actix_web::{get, HttpResponse, Responder};
+use actix_web::{
+    web::{get, ServiceConfig},
+    HttpResponse,
+};
 
 pub struct AppState {
     pub pool: sqlx::PgPool,
 }
 
-#[get("/health")]
-pub async fn health() -> impl Responder {
+pub fn service(cfg: &mut ServiceConfig) {
+    cfg.route("/health", get().to(health));
+}
+
+async fn health() -> HttpResponse {
     HttpResponse::Ok()
-        .append_header(("version", "0.0.1"))
+        .append_header(("version", "v0.0.1"))
         .finish()
 }
