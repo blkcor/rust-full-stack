@@ -17,6 +17,7 @@ async fn hello_world() -> &'static str {
 
 #[get("/version")]
 async fn version(app_state: web::Data<AppState>) -> String {
+    tracing::info!("Checking database version");
     let result: Result<String, sqlx::Error> = sqlx::query_scalar("SELECT version()")
         .fetch_one(&app_state.pool)
         .await;
