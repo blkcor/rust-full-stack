@@ -1,9 +1,8 @@
 use actix_web::web::{self, ServiceConfig};
-use api_lib::health::{hello_world, version, AppState};
+use api_lib::health::{health, AppState};
 use shuttle_actix_web::ShuttleActixWeb;
 use shuttle_runtime::CustomError;
 use sqlx::Executor;
-
 #[shuttle_runtime::main]
 async fn actix_web(
     #[shuttle_shared_db::Postgres()] pool: sqlx::PgPool,
@@ -17,9 +16,7 @@ async fn actix_web(
     let app_state = web::Data::new(AppState { pool });
     // Configure the Actix Web service
     let config = move |cfg: &mut ServiceConfig| {
-        cfg.app_data(app_state)
-            .service(hello_world)
-            .service(version);
+        cfg.app_data(app_state).service(health);
     };
     Ok(config.into())
 }
