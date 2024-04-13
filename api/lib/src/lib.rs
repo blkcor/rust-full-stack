@@ -1,3 +1,4 @@
+pub mod films;
 pub mod health;
 
 pub fn add(left: usize, right: usize) -> usize {

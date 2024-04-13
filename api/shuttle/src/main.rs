@@ -1,5 +1,5 @@
 use actix_web::web::{self, ServiceConfig};
-use api_lib::health::{service, AppState};
+use api_lib::health::AppState;
 use shuttle_actix_web::ShuttleActixWeb;
 use shuttle_runtime::CustomError;
 use sqlx::Executor;
@@ -16,7 +16,9 @@ async fn actix_web(
     let app_state = web::Data::new(AppState { pool });
     // Configure the Actix Web service
     let config = move |cfg: &mut ServiceConfig| {
-        cfg.app_data(app_state).configure(service);
+        cfg.app_data(app_state)
+            .configure(api_lib::health::service)
+            .configure(api_lib::films::service);
     };
     Ok(config.into())
 }
