@@ -28,10 +28,7 @@ async fn version(app_state: web::Data<AppState>) -> String {
 
 #[shuttle_runtime::main]
 async fn actix_web(
-    #[shuttle_shared_db::Postgres(
-        local_uri = "postgres://chenzilong:{secrets.PASSWORD}@localhost:5432/postgres"
-    )]
-    pool: sqlx::PgPool,
+    #[shuttle_shared_db::Postgres()] pool: sqlx::PgPool,
 ) -> ShuttleActixWeb<impl FnOnce(&mut ServiceConfig) + Send + Clone + 'static> {
     // Create the database schema
     pool.execute(include_str!("../../db/schema.sql"))
