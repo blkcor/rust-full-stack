@@ -10,4 +10,5 @@ pub trait FilmRepository: Send + Sync + 'static {
     async fn get_film(&self, id: &Uuid) -> FilmResult<Film>;
     async fn create_film(&self, id: &CreateFilm) -> FilmResult<Film>;
     async fn update_film(&self, id: &Uuid) -> FilmResult<Uuid>;
+    async fn delete_film(&self, id: &Uuid) -> FilmResult<Uuid>;
 }
