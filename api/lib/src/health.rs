@@ -5,8 +5,10 @@ use actix_web::{
     HttpResponse,
 };
 
+use crate::film_repository::FilmRepository;
+
 pub struct AppState {
-    pub pool: sqlx::PgPool,
+    pub film_repository: Box<dyn FilmRepository>,
 }
 
 pub fn service(cfg: &mut ServiceConfig) {
