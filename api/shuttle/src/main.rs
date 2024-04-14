@@ -1,7 +1,4 @@
-use actix_web::{
-    web::{self, ServiceConfig},
-    App,
-};
+use actix_web::web::{self, ServiceConfig};
 use api_lib::health::AppState;
 use shuttle_actix_web::ShuttleActixWeb;
 use shuttle_runtime::CustomError;
