@@ -10,7 +10,7 @@ args = ["shuttle", "run"]
 workspace = false
 cwd = "./front"
 install_crate = "dioxus-cli"
-command = "dioxus"
+command = "dx"
 args = ["serve"]
 
 [tasks.front-build]
