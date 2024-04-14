@@ -1,4 +1,5 @@
-use actix_web::web::{self, ServiceConfig};
+use actix_files::Files;
+use actix_web::web::{self, scope, ServiceConfig};
 use api_lib::{film_repository::PostgresFilmRepository, health::AppState};
 use shuttle_actix_web::ShuttleActixWeb;
 use shuttle_runtime::CustomError;
@@ -18,9 +19,13 @@ async fn actix_web(
 
     // Configure the Actix Web service
     let config = move |cfg: &mut ServiceConfig| {
-        cfg.app_data(film_repository)
-            .configure(api_lib::health::service)
-            .configure(api_lib::films::service::<PostgresFilmRepository>);
+        cfg.service(
+            scope("/api")
+                .app_data(film_repository)
+                .configure(api_lib::health::service)
+                .configure(api_lib::films::service::<PostgresFilmRepository>),
+        )
+        .service(Files::new("/", "static").index_file("index.html"));
     };
     Ok(config.into())
 }
