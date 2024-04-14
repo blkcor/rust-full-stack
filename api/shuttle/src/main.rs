@@ -1,5 +1,5 @@
 use actix_web::web::{self, ServiceConfig};
-use api_lib::health::AppState;
+use api_lib::{film_repository::PostgresFilmRepository, health::AppState};
 use shuttle_actix_web::ShuttleActixWeb;
 use shuttle_runtime::CustomError;
 use sqlx::Executor;
@@ -13,16 +13,14 @@ async fn actix_web(
         .map_err(CustomError::new)?;
 
     //initialize the app state
-    let film_repository = api_lib::film_repository::PostgresFilmRepository::new(pool);
-    let film_repository = web::Data::new(AppState {
-        film_repository: Box::new(film_repository),
-    });
+    let film_repository = PostgresFilmRepository::new(pool);
+    let film_repository = web::Data::new(AppState { film_repository });
 
     // Configure the Actix Web service
     let config = move |cfg: &mut ServiceConfig| {
         cfg.app_data(film_repository)
             .configure(api_lib::health::service)
-            .configure(api_lib::films::service);
+            .configure(api_lib::films::service::<PostgresFilmRepository>);
     };
     Ok(config.into())
 }

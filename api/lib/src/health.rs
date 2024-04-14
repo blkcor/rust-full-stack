@@ -6,9 +6,8 @@ use actix_web::{
 };
 
 use crate::film_repository::FilmRepository;
-
-pub struct AppState {
-    pub film_repository: Box<dyn FilmRepository>,
+pub struct AppState<R: FilmRepository> {
+    pub film_repository: R,
 }
 
 pub fn service(cfg: &mut ServiceConfig) {
