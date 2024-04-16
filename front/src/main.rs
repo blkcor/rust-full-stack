@@ -1,7 +1,7 @@
 #![allow(non_snake_case)]
 mod components;
 mod models;
-use components::{Footer, Header};
+use components::{FilmModal, Footer, Header};
 use dioxus::prelude::*;
 
 fn main() {
@@ -19,6 +19,10 @@ fn App() -> Element {
             Header{},
             section{
                 class: "md:container md:mx-auto md:py-8 flex-1"
+            },
+            FilmModal{
+                on_create_or_update: |_|{},
+                on_cancel: |_|{}
             },
             Footer{}
         }
