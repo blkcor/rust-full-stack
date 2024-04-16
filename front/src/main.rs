@@ -1,12 +1,12 @@
 #![allow(non_snake_case)]
 mod components;
+mod models;
 use components::{Footer, Header};
 use dioxus::prelude::*;
 
 fn main() {
     //initialize the logger
     wasm_logger::init(wasm_logger::Config::default().module_prefix("front"));
-    log::info!("hello console");
     // Launch the web application using the App component as the root.
     launch(App);
 }
